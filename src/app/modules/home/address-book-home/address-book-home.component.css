@@ -2,3 +2,7 @@
     color: red;
     
 }
+:host {
+    display: block;
+    padding: 1rem;
+}

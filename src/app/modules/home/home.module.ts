@@ -5,8 +5,10 @@ import { AddressBookHomeComponent } from './address-book-home/address-book-home.
 import { HomeComponent } from './home.component';
 import { Routes } from '@angular/router';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IgxDateRangePickerModule, IgxIconModule, IgxInputGroupModule } from 'igniteui-angular';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -20,7 +22,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     HomeRouting,
     NgxSmartModalModule.forChild(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    IgxDateRangePickerModule,
+    IgxInputGroupModule,
+    IgxIconModule,
+    
 
   ]
 })

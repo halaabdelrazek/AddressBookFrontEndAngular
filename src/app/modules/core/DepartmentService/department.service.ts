@@ -7,7 +7,7 @@ import { Department } from '../../home/Models/contact.model';
 })
 export class DepartmentService {
 
-  baseURL: string = 'https://localhost:7080/api/Department';
+  baseURL: string = 'http://halaabdelrazek-001-site1.gtempurl.com/api/Department';
 
   constructor(private httpClient: HttpClient) { }
 

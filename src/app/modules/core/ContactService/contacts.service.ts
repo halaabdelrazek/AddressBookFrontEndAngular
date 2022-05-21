@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Contact, CreateContactDTO, UpdatedContactDTO } from '../../home/Models/contact.model';
+import { Observable } from 'rxjs';
+import { Contact, CreateContactDTO, SearchObject, UpdatedContactDTO } from '../../home/Models/contact.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactsService {
 
-  baseURL: string = 'https://localhost:7080/api/Contact';
+  baseURL: string = 'http://halaabdelrazek-001-site1.gtempurl.com/api/Contact';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -30,8 +31,12 @@ export class ContactsService {
       return this.httpClient.delete(this.baseURL + '/' + id);
     }
 
-    UploadImage(filedata : FormData){
-      return this.httpClient.post(this.baseURL,filedata);
+    UploadImage(filedata : FormData, id:string):Observable<{dbPath:string}>{
+      return this.httpClient.post<{dbPath:string}>(this.baseURL+ '/Upload/'+id ,filedata);
+    }
+
+    Serach(searchObject: SearchObject){
+      return this.httpClient.post<Contact[]>(this.baseURL+ '/FiltersContact/',searchObject);
     }
 
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './modules/auth/auth.module';
@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './modules/core/core.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { Interceptor } from './modules/core/interceptore/interceptors.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
   
 
@@ -25,7 +26,10 @@ import { Interceptor } from './modules/core/interceptore/interceptors.service';
     AppRoutingModule,
     AuthModule,
     HomeModule,
-    CoreModule
+    CoreModule,
+    BrowserAnimationsModule,
+    HammerModule,
+
   ],
 
 

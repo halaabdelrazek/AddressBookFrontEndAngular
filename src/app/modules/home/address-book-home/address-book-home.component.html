@@ -23,8 +23,88 @@
         <button type="button" class="btn btn-primary m-2" (click)="openAddModal()">Add Contact</button>
     </div>
 </nav>
+<div class="input-group">
+    <form [formGroup]="FilterdForm" (ngSubmit)="Search()">
 
-<div class="container">
+        <div class="form-group">
+            <div class="input-group input-group-lg">
+                <!-- <label class="mb-3">Full Name</label> -->
+                <input type="search" formControlName="fullNameQuery" class="form-control form-control-lg"
+                    placeholder="Full Name Search">
+
+                <!-- <label class="mb-3">Phone</label> -->
+                <input type="search" formControlName="phoneQuery" class="form-control form-control-lg"
+                    placeholder="Phone Search">
+
+                <!-- <label class="mb-3">Email</label> -->
+                <input type="search" formControlName="emailQuery" class="form-control form-control-lg"
+                    placeholder="Email Search">
+
+                <!-- <label class="mb-3">Age</label> -->
+                <input type="search" formControlName="ageQuery" class="form-control form-control-lg"
+                    placeholder="Age search">
+
+
+
+                <div class="dropdown mt-4">
+                    <!-- <label class="mb-3">Address</label> -->
+                    <select formControlName="addressQuery" class="form-select form-select-sm"
+                        aria-label=".form-select-sm example">
+                        <option selected>Select Option</option>
+                        <option value="cairo">cairo</option>
+                        <option value="ismailia">ismailia</option>
+                        <option value="port said">port said</option>
+                    </select>
+                </div>
+                <div class="dropdown mt-4">
+                    <!-- <label class="mb-3">Department</label> -->
+                    <select formControlName="departmentQuery" class="form-select form-select-sm"
+                        aria-label=".form-select-sm example">
+                        <option selected>Select Option</option>
+                        <option *ngFor="let department of Departments" value="{{department.departmentId}}">
+                            {{department.departmentName}}</option>
+                    </select>
+                </div>
+
+                <div class="dropdown mt-4">
+                    <!-- <label class="mb-3">Job Title</label> -->
+                    <select formControlName="titleQuery" class="form-select form-select-sm"
+                        aria-label=".form-select-sm example">
+                        <option selected>Select Option</option>
+                        <option *ngFor="let JobTitle of JobTitles" value="{{JobTitle.jobTitleId}}">
+                            {{JobTitle.jobTitleName}}</option>
+
+                    </select>
+                </div>
+
+
+            </div>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-lg btn-default">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+    </form>
+    <div class="input-group">
+        <igx-date-range-picker [(ngModel)]="range">
+            <igx-date-range-start>
+                <input igxInput igxDateTimeEditor type="text">
+                <igx-picker-toggle igxPrefix>
+                    <igx-icon>calendar_today</igx-icon>
+                </igx-picker-toggle>
+            </igx-date-range-start>
+            <igx-date-range-end>
+                <input igxInput igxDateTimeEditor type="text">
+            </igx-date-range-end>
+        </igx-date-range-picker>
+    </div>
+
+</div>
+
+
+<div class="container-fluid mt-4">
 
     <div class="card">
         <div class="card-header">
@@ -32,47 +112,50 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <table class="table table-bordered" id="excel-table">
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Job Title</th>
-                        <th>Department</th>
-                        <th>Mobile Number</th>
-                        <th>Date of birth</th>
-                        <th>Address</th>
-                        <th>Email</th>
-                        <th>Photo</th>
-                        <th>age</th>
-                        <th>Controls</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let contact of contacts">
-                        <td>{{contact.username}}</td>
-                        <td>{{contact.jobTitle.jobTitleName}}</td>
-                        <td>{{contact.department.departmentName}}</td>
-                        <td>{{contact.phone}}</td>
-                        <td>{{contact.dateOfBirth| date}}</td>
-                        <td>{{contact.address}}</td>
-                        <td>{{contact.email}}</td>
-                        <td><img src="/assets/img/{{contact.image}}" alt="Image" class="img-size-50 mr-3 img-circle" />
-                        </td>
-                        <td>{{contact.age}}</td>
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" (click)="openEditModal($event, contact)"
-                                    class="btn btn-primary m-1">Edit</button>
-                                <button type="button" (click)="deleteContact($event, contact.contactId)"
-                                    class="btn btn-primary m-1">Delete</button>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="excel-table">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Job Title</th>
+                            <th>Department</th>
+                            <th>Mobile Number</th>
+                            <th>Date of birth</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                            <th>Photo</th>
+                            <th>age</th>
+                            <th>Controls</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let contact of contacts">
+                            <td>{{contact.username}}</td>
+                            <td>{{contact.jobTitle.jobTitleName}}</td>
+                            <td>{{contact.department.departmentName}}</td>
+                            <td>{{contact.phone}}</td>
+                            <td>{{contact.dateOfBirth| date}}</td>
+                            <td>{{contact.address}}</td>
+                            <td>{{contact.email}}</td>
+                            <td><img src="{{ServerBase}}{{contact.image}}" alt="Image"
+                                    class="img-size-50 mr-3 img-circle" />
+                            </td>
+                            <td>{{contact.age}}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" (click)="openEditModal($event, contact)"
+                                        class="btn btn-primary m-1">Edit</button>
+                                    <button type="button" (click)="deleteContact($event, contact.contactId)"
+                                        class="btn btn-primary m-1">Delete</button>
+                                </div>
 
-                            </div>
+                            </td>
+                        </tr>
 
-                        </td>
-                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                </tbody>
-            </table>
         </div>
         <!-- /.card-body -->
 
@@ -182,7 +265,7 @@
                 <label class="mb-3">Department</label>
                 <select formControlName="Department" class="form-select form-select-sm"
                     aria-label=".form-select-sm example">
-                    <option>Select Option</option>
+                    <option selected>Select Option</option>
                     <option *ngFor="let department of Departments" value="{{department.departmentId}}">
                         {{department.departmentName}}</option>
                 </select>

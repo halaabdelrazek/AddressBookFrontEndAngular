@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { AuthService } from '../../auth/auth.service';
 import { ContactsService } from '../../core/ContactService/contacts.service';
 import { DepartmentService } from '../../core/DepartmentService/department.service';
 import { JobTitleService } from '../../core/JobTitleService/job-title.service';
-import { Contact, CreateContactDTO, Department, UpdatedContactDTO } from '../Models/contact.model';
+import { Contact, CreateContactDTO, Department, SearchObject, UpdatedContactDTO } from '../Models/contact.model';
 import { JobTitle } from '../Models/JobTitle.model';
 import * as XLSX from 'xlsx';
+import { environment } from 'src/environments/environment';
+import { DateRange } from 'igniteui-angular';
 
 
 @Component({
@@ -17,15 +19,21 @@ import * as XLSX from 'xlsx';
 })
 export class AddressBookHomeComponent implements OnInit {
 
+  range: DateRange = { start: new Date(), end: new Date(new Date().setDate(new Date().getDate() + 5)) };
+
+
   contacts: Contact[] = [];
   Departments: Department[] = [];
   JobTitles: JobTitle[] = [];
   contactToEdit: Contact | null = null;
 
-  selectedFile: any = null;
+  selectedFile: File | null = null;
 
   title = 'angular-app';
   fileName = 'ExcelSheet.xlsx';
+
+  ServerBase = environment.ServerBase;
+  DefaultImage = environment.DefaultImage;
 
   AddOrEditForm: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -33,18 +41,38 @@ export class AddressBookHomeComponent implements OnInit {
     phone: new FormControl('', [Validators.required, Validators.pattern(/^(\+201|01|00201)[0-2,5]{1}[0-9]{8}/)]),
     dateOfBirth: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
-    image: new FormControl('', Validators.required),
+    image: new FormControl(''),
     age: new FormControl('', Validators.required),
     Department: new FormControl('', Validators.required),
     JobTitle: new FormControl('', Validators.required),
 
   })
 
-  constructor(private authService: AuthService, private contactService: ContactsService, private departmentService: DepartmentService, private jobTitleService: JobTitleService, private ngxSmartModalService: NgxSmartModalService) { }
+  FilterdForm: FormGroup = new FormGroup({
+    fullNameQuery: new FormControl(''),
+    titleQuery: new FormControl(''),
+    departmentQuery: new FormControl(''),
+    phoneQuery: new FormControl(''),
+    addressQuery: new FormControl(''),
+    emailQuery: new FormControl(''),
+    ageQuery: new FormControl(''),
+
+
+  })
+
+  constructor(private authService: AuthService, private contactService: ContactsService, private departmentService: DepartmentService, private jobTitleService: JobTitleService, private ngxSmartModalService: NgxSmartModalService) {
+
+  }
 
   ngOnInit(): void {
     this.contactService.getAllContacts().subscribe({
       next: (contacts) => {
+        contacts.forEach(c => {
+          if (!c.image) {
+            c.image = this.DefaultImage;
+          }
+
+        });
         this.contacts = contacts;
       },
       error: (err) => {
@@ -93,19 +121,44 @@ export class AddressBookHomeComponent implements OnInit {
 
   }
 
-  onFileSelect(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      console.log(file.name);
-      this.AddOrEditForm.patchValue({ 'image': file.name });
+  Search() {
+    console.log(this.FilterdForm.value)
+    console.log(this.range.start)
+    console.log(this.range.end)
+    let searchObject: SearchObject = {
+
+      fullNameQuery: this.FilterdForm.value.fullNameQuery,
+      titleQuery: this.FilterdForm.value.titleQuery,
+      departmentQuery: this.FilterdForm.value.departmentQuery,
+      phoneQuery: this.FilterdForm.value.phoneQuery,
+      addressQuery: this.FilterdForm.value.addressQuery,
+      emailQuery: this.FilterdForm.value.emailQuery,
+      ageQuery: this.FilterdForm.value.ageQuery,
+      from: this.range.start as Date,
+      to: this.range.end as Date
+
     }
+
+    this.contactService.Serach(searchObject).subscribe({
+      next: (response)=>{
+        response.forEach(c => {
+          if (!c.image) {
+            c.image = this.DefaultImage;
+          }
+
+        });
+        this.contacts = response;
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    })
+
   }
 
   exportexcel() {
 
     /* pass here the table id */
-  
-
     let element = document.getElementById('excel-table');
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
@@ -117,21 +170,20 @@ export class AddressBookHomeComponent implements OnInit {
     XLSX.writeFile(wb, this.fileName);
 
   }
-  // onFileSelect(event: any) {
-  //   this.selectedFile = <File>event.target.files[0];
-  // }
+  onFileSelect(event: any) {
+    this.selectedFile = <File>event.target.files[0];
+  }
 
-  // onUpload() {
-  //   const fileData = new FormData();
-  //   fileData.append('image', this.selectedFile, this.selectedFile.name);
-  //   this.contactService.UploadImage(fileData).subscribe(res=>{
-  //     console.log(res);
-  //   })
-  // }
+  onUpload(id: string) {
+    const fileData = new FormData();
+    fileData.append('image', this.selectedFile as File, this.selectedFile?.name);
+    return this.contactService.UploadImage(fileData, id)
+  }
 
   addOrEditContact() {
 
     const { value, valid, dirty } = this.AddOrEditForm;
+    // console.log(this.AddOrEditForm)
 
     if (!valid || !dirty) return;
 
@@ -147,19 +199,33 @@ export class AddressBookHomeComponent implements OnInit {
         phone: this.AddOrEditForm.value.phone,
         dateOfBirth: this.AddOrEditForm.value.dateOfBirth,
         address: this.AddOrEditForm.value.address,
-        image: this.AddOrEditForm.value.image,
+        //  image: this.AddOrEditForm.value.image,
         age: this.AddOrEditForm.value.age,
         DepartmentId: this.AddOrEditForm.value.Department,
         JobTitleId: this.AddOrEditForm.value.JobTitle
       }
       // this.onUpload();
+
       this.contactService
         .addContact(contactAdd)
         .subscribe({
           next: (conatct) => {
-            this.contacts.push(conatct);
-            this.AddOrEditForm.reset();
-            this.ngxSmartModalService.getModal('contactrModal').close();
+            if (!this.AddOrEditForm.value.image) {
+              debugger;
+              conatct.image = this.DefaultImage;
+              this.contacts.push(conatct);
+              this.AddOrEditForm.reset();
+              this.ngxSmartModalService.getModal('contactrModal').close();
+
+            }
+            this.onUpload(conatct.contactId!).subscribe(res => {
+              console.log(res);
+              conatct.image = res.dbPath;
+              this.contacts.push(conatct);
+              this.AddOrEditForm.reset();
+              this.ngxSmartModalService.getModal('contactrModal').close();
+            })
+
           },
           error: (err) => {
             alert(err.error);
@@ -177,23 +243,39 @@ export class AddressBookHomeComponent implements OnInit {
         phone: this.AddOrEditForm.value.phone,
         dateOfBirth: this.AddOrEditForm.value.dateOfBirth,
         address: this.AddOrEditForm.value.address,
-        image: this.AddOrEditForm.value.image,
+        // image: this.AddOrEditForm.value.image,
         age: this.AddOrEditForm.value.age,
         DepartmentId: this.AddOrEditForm.value.Department,
         JobTitleId: this.AddOrEditForm.value.JobTitle
       }
-      debugger;
       this.contactService
         .editContact(this.contactToEdit.contactId, contactUpdate)
         .subscribe({
           next: (response) => {
 
-            const indexToEdit = this.contacts.findIndex((c) => c.contactId === response.contactId);
-            this.contacts.splice(indexToEdit, 1, response);
+            if (!this.AddOrEditForm.value.image) {
+              response.image = this.DefaultImage;
+              const indexToEdit = this.contacts.findIndex((c) => c.contactId === response.contactId);
+              this.contacts.splice(indexToEdit, 1, response);
 
-            this.contactToEdit = null;
-            this.AddOrEditForm.reset();
-            this.ngxSmartModalService.getModal('contactrModal').close();
+              this.contactToEdit = null;
+              this.AddOrEditForm.reset();
+              this.ngxSmartModalService.getModal('contactrModal').close();
+
+            }
+
+            this.onUpload(response.contactId!).subscribe(res => {
+              console.log(res);
+              response.image = res.dbPath;
+              const indexToEdit = this.contacts.findIndex((c) => c.contactId === response.contactId);
+              this.contacts.splice(indexToEdit, 1, response);
+
+              this.contactToEdit = null;
+              this.AddOrEditForm.reset();
+              this.ngxSmartModalService.getModal('contactrModal').close();
+            })
+
+
           },
           error: (err) => {
             console.log(err);
