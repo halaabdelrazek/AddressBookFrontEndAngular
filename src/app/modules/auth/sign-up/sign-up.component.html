@@ -1,0 +1,112 @@
+<section class="hold-transition register-page">
+  <div class="register-box">
+    <div class="register-logo">
+      <a href="../../index2.html"><b>Admin</b>LTE</a>
+    </div>
+
+    <div class="card">
+      <div class="card-body register-card-body">
+        <p class="login-box-msg">Register a new membership</p>
+
+        <form [formGroup]="registerForm" (ngSubmit)=" register()">
+          <div class="input-group mb-3">
+            <input type="text" formControlName="username" id="username" class="form-control" placeholder="Full name">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <div class="error-message"
+                  *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+                  <span class="glyphicon glyphicon-envelope form-control-feedback"
+                    *ngIf="registerForm.get('username')?.hasError('required')">Name is required </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="input-group mb-3">
+            <input type="email" formControlName="email" id="email" class="form-control" placeholder="Email">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <div class="error-message"
+                  *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                  <span class="glyphicon glyphicon-envelope form-control-feedback"
+                    *ngIf="registerForm.get('email')?.hasError('required')">Email is required </span>
+                  <span class="glyphicon glyphicon-envelope form-control-feedback"
+                    *ngIf="registerForm.get('email')?.hasError('pattern')">please enter valid email</span>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" formControlName="password" id="password" class="form-control" placeholder="Password">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <div class="error-message"
+                  *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                  <span class="glyphicon glyphicon-lock form-control-feedback"
+                    *ngIf="registerForm.get('password')?.hasError('required')">Password is required</span>
+                  <span class="glyphicon glyphicon-lock form-control-feedback"
+                    *ngIf="registerForm.get('password')?.hasError('minlength')">Password must be 6 digits</span>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <input type="text" formControlName="phoneNumber" id="phoneNumber" class="form-control"
+              placeholder="Phone Number">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <div class="error-message"
+                  *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched">
+                  <span class="glyphicon glyphicon-envelope form-control-feedback"
+                    *ngIf="registerForm.get('phoneNumber')?.hasError('required')">Phone number is required </span>
+                  <span class="glyphicon glyphicon-envelope form-control-feedback"
+                    *ngIf="registerForm.get('phoneNumber')?.hasError('pattern')">please enter valid Phone Number</span>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+
+            <input type="date" formControlName="dateOfBirth" id="dateOfBirth" class="form-control"
+              placeholder="Date Of Birth">
+            <div class="input-group-append">
+              <div class="input-group-text">
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" formControlName="address" id="address" class="form-control" placeholder="address">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <div class="error-message"
+                  *ngIf="registerForm.get('address')?.invalid && registerForm.get('address')?.touched">
+                  <span class="glyphicon glyphicon-envelope form-control-feedback"
+                    *ngIf="registerForm.get('address')?.hasError('required')">Address is required </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-xs-4">
+
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+            <a [routerLink]="'/auth/login'" class="text-center">I already have a membership</a>
+
+          </div>
+
+        </form>
+
+
+      </div>
+      <!-- /.form-box -->
+    </div><!-- /.card -->
+  </div>
+</section>

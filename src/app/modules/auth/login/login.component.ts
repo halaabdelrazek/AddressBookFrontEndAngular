@@ -20,33 +20,28 @@ export class LoginComponent implements OnInit {
     ]),
     password: new FormControl('', [
       Validators.required,
-      Validators.minLength(8),
+      Validators.minLength(6),
     ]),
   });
 
-  isChecked = true;
-  constructor(private authService: AuthService, private route: Router) {}
+  constructor(private authService: AuthService, private route: Router) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   login() {
     if (!this.loginForm.valid) {
       return;
-    } else if (
-      this.loginForm.value.email !== localStorage.getItem('email') ||
-      this.loginForm.value.password !== localStorage.getItem('password')
-    ) {
-      this.isChecked = false;
     } else {
+
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          localStorage.setItem('user',JSON.stringify((response as any).data.user)
-          );
-          localStorage.setItem('token', (response as any).data.token);
-          this.route.navigate(['/']);
+
+          localStorage.setItem('token', (response as any).token);
+          this.route.navigate(['/home']);
         },
         error: (err) => {
-          console.log(err);
+          
+          alert(err.error);
         },
       });
     }
