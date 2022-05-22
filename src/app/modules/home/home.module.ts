@@ -9,8 +9,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IgxDateRangePickerModule, IgxIconModule, IgxInputGroupModule } from 'igniteui-angular';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import {MatSelectModule} from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -28,7 +30,11 @@ import {MatSelectModule} from '@angular/material/select';
     IgxDateRangePickerModule,
     IgxInputGroupModule,
     IgxIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+     
+
     
 
   ]

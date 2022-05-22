@@ -19,8 +19,11 @@ import { DateRange } from 'igniteui-angular';
 })
 export class AddressBookHomeComponent implements OnInit {
 
-  range: DateRange = { start: new Date(), end: new Date(new Date().setDate(new Date().getDate() + 5)) };
 
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
 
   contacts: Contact[] = [];
   Departments: Department[] = [];
@@ -124,8 +127,8 @@ export class AddressBookHomeComponent implements OnInit {
 
   Search() {
     console.log(this.FilterdForm.value)
-    console.log(this.range.start)
-    console.log(this.range.end)
+    console.log(this.range.value.start)
+    console.log(this.range.value.end)
     let searchObject: SearchObject = {
 
       fullNameQuery: this.FilterdForm.value.fullNameQuery,
@@ -135,8 +138,8 @@ export class AddressBookHomeComponent implements OnInit {
       addressQuery: this.FilterdForm.value.addressQuery,
       emailQuery: this.FilterdForm.value.emailQuery,
       ageQuery: this.FilterdForm.value.ageQuery,
-      from: this.range.start as Date,
-      to: this.range.end as Date
+      from: this.range.value.start,
+      to: this.range.value.end
 
     }
 

@@ -109,17 +109,23 @@
 
                             <div class="col-3 mt-1">
                                 <div class="input-group">
-                                    <igx-date-range-picker [(ngModel)]="range">
-                                        <igx-date-range-start>
-                                            <input igxInput igxDateTimeEditor type="text">
-                                            <igx-picker-toggle igxPrefix>
-                                                <igx-icon>calendar_today</igx-icon>
-                                            </igx-picker-toggle>
-                                        </igx-date-range-start>
-                                        <igx-date-range-end>
-                                            <input igxInput igxDateTimeEditor type="text">
-                                        </igx-date-range-end>
-                                    </igx-date-range-picker>
+
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Enter a date range</mat-label>
+                                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                                            <input matStartDate formControlName="start" placeholder="Start date">
+                                            <input matEndDate formControlName="end" placeholder="End date">
+                                        </mat-date-range-input>
+                                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-date-range-picker #picker></mat-date-range-picker>
+
+                                        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid
+                                            start date</mat-error>
+                                        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end
+                                            date</mat-error>
+                                    </mat-form-field>
+                           
                                 </div>
                             </div>
 
@@ -365,7 +371,8 @@
         </div>
         <div class="col-xs-4">
 
-            <button type="submit" [disabled]="!AddOrEditForm.valid || !AddOrEditForm.dirty" class="btn btn-primary btn-block btn-flat">Save</button>
+            <button type="submit" [disabled]="!AddOrEditForm.valid || !AddOrEditForm.dirty"
+                class="btn btn-primary btn-block btn-flat">Save</button>
             <button (click)="closeModal()" type="button" class="btn btn-primary btn-block btn-flat mt-4">cancel</button>
 
 
