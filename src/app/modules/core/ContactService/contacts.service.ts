@@ -8,7 +8,9 @@ import { Contact, CreateContactDTO, SearchObject, UpdatedContactDTO } from '../.
 })
 export class ContactsService {
 
+ // baseURL: string = 'https://localhost:7080/api/Contact';
   baseURL: string = 'http://halaabdelrazek-001-site1.gtempurl.com/api/Contact';
+
 
   constructor(private httpClient: HttpClient) { }
 

@@ -7,7 +7,8 @@ import { JobTitle } from '../../home/Models/JobTitle.model';
 })
 export class JobTitleService {
 
-  baseURL: string = 'http://halaabdelrazek-001-site1.gtempurl.com/api/JobTitle';
+  baseURL: string = 'https://localhost:7080/api/JobTitle';
+  // baseURL: string = 'http://halaabdelrazek-001-site1.gtempurl.com/api/JobTitle';
 
   constructor(private httpClient: HttpClient) { }
 

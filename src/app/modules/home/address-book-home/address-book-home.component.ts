@@ -35,6 +35,7 @@ export class AddressBookHomeComponent implements OnInit {
   ServerBase = environment.ServerBase;
   DefaultImage = environment.DefaultImage;
 
+
   AddOrEditForm: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.pattern(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]),
@@ -185,12 +186,11 @@ export class AddressBookHomeComponent implements OnInit {
     const { value, valid, dirty } = this.AddOrEditForm;
     // console.log(this.AddOrEditForm)
 
-    if (!valid || !dirty) return;
+    if (!valid || !dirty)  return;
 
 
 
     if (!this.contactToEdit) {
-
 
       let contactAdd: CreateContactDTO = {
 
@@ -205,6 +205,7 @@ export class AddressBookHomeComponent implements OnInit {
         JobTitleId: this.AddOrEditForm.value.JobTitle
       }
       // this.onUpload();
+
 
       this.contactService
         .addContact(contactAdd)
@@ -234,7 +235,6 @@ export class AddressBookHomeComponent implements OnInit {
         });
 
     } else {
-
 
       let contactUpdate: UpdatedContactDTO = {
         contactId: this.contactToEdit.contactId,

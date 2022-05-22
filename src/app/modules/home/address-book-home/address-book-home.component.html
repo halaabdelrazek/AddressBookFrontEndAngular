@@ -23,85 +23,127 @@
         <button type="button" class="btn btn-primary m-2" (click)="openAddModal()">Add Contact</button>
     </div>
 </nav>
-<div class="input-group">
+<div class="input-group mt-4">
     <form [formGroup]="FilterdForm" (ngSubmit)="Search()">
 
         <div class="form-group">
-            <div class="input-group input-group-lg">
-                <!-- <label class="mb-3">Full Name</label> -->
-                <input type="search" formControlName="fullNameQuery" class="form-control form-control-lg"
-                    placeholder="Full Name Search">
+            <div class="input-group">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-2">
+                            <input type="search" formControlName="fullNameQuery" class="form-control input-sm"
+                                placeholder="Full Name Search">
+                        </div>
 
-                <!-- <label class="mb-3">Phone</label> -->
-                <input type="search" formControlName="phoneQuery" class="form-control form-control-lg"
-                    placeholder="Phone Search">
+                        <div class="col-2">
+                            <input type="search" formControlName="phoneQuery" class="form-control input-sm"
+                                placeholder="Phone Search">
+                        </div>
 
-                <!-- <label class="mb-3">Email</label> -->
-                <input type="search" formControlName="emailQuery" class="form-control form-control-lg"
-                    placeholder="Email Search">
-
-                <!-- <label class="mb-3">Age</label> -->
-                <input type="search" formControlName="ageQuery" class="form-control form-control-lg"
-                    placeholder="Age search">
+                        <div class="col-2">
+                            <input type="search" formControlName="emailQuery" class="form-control input-sm"
+                                placeholder="Email Search">
+                        </div>
 
 
+                        <div class="col-2">
+                            <input type="search" formControlName="ageQuery" class="form-control input-sm"
+                                placeholder="Age search">
+                        </div>
 
-                <div class="dropdown mt-4">
-                    <!-- <label class="mb-3">Address</label> -->
-                    <select formControlName="addressQuery" class="form-select form-select-sm"
-                        aria-label=".form-select-sm example">
-                        <option selected>Select Option</option>
-                        <option value="cairo">cairo</option>
-                        <option value="ismailia">ismailia</option>
-                        <option value="port said">port said</option>
-                    </select>
+                        <div class="col-2 input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+
+
                 </div>
-                <div class="dropdown mt-4">
-                    <!-- <label class="mb-3">Department</label> -->
-                    <select formControlName="departmentQuery" class="form-select form-select-sm"
-                        aria-label=".form-select-sm example">
-                        <option selected>Select Option</option>
-                        <option *ngFor="let department of Departments" value="{{department.departmentId}}">
-                            {{department.departmentName}}</option>
-                    </select>
+                <div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-3 mt-3">
+                                <mat-form-field>
+                                    <mat-label>Select Address</mat-label>
+                                    <mat-select formControlName="addressQuery" name="addressQuery">
+                                        <mat-option value="cairo">
+                                            cairo
+                                        </mat-option>
+                                        <mat-option value="ismailia">
+                                            ismailia
+                                        </mat-option>
+                                        <mat-option value="port said">
+                                            port said
+                                        </mat-option>
+
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </div>
+
+                            <div class="col-3 mt-3">
+                                <mat-form-field>
+                                    <mat-label>Select Department</mat-label>
+                                    <mat-select formControlName="departmentQuery" name="department">
+                                        <mat-option *ngFor="let department of Departments"
+                                            [value]="department.departmentId">
+                                            {{department.departmentName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-3 mt-3">
+                                <mat-form-field>
+                                    <mat-label>Select Job Title</mat-label>
+                                    <mat-select formControlName="titleQuery" name="titleQuery">
+                                        <mat-option *ngFor="let JobTitle of JobTitles" [value]="JobTitle.jobTitleId">
+                                            {{JobTitle.jobTitleName}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-3 mt-1">
+                                <div class="input-group">
+                                    <igx-date-range-picker [(ngModel)]="range">
+                                        <igx-date-range-start>
+                                            <input igxInput igxDateTimeEditor type="text">
+                                            <igx-picker-toggle igxPrefix>
+                                                <igx-icon>calendar_today</igx-icon>
+                                            </igx-picker-toggle>
+                                        </igx-date-range-start>
+                                        <igx-date-range-end>
+                                            <input igxInput igxDateTimeEditor type="text">
+                                        </igx-date-range-end>
+                                    </igx-date-range-picker>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
                 </div>
 
-                <div class="dropdown mt-4">
-                    <!-- <label class="mb-3">Job Title</label> -->
-                    <select formControlName="titleQuery" class="form-select form-select-sm"
-                        aria-label=".form-select-sm example">
-                        <option selected>Select Option</option>
-                        <option *ngFor="let JobTitle of JobTitles" value="{{JobTitle.jobTitleId}}">
-                            {{JobTitle.jobTitleName}}</option>
 
-                    </select>
-                </div>
 
 
             </div>
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-lg btn-default">
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
+
         </div>
 
     </form>
-    <div class="input-group">
-        <igx-date-range-picker [(ngModel)]="range">
-            <igx-date-range-start>
-                <input igxInput igxDateTimeEditor type="text">
-                <igx-picker-toggle igxPrefix>
-                    <igx-icon>calendar_today</igx-icon>
-                </igx-picker-toggle>
-            </igx-date-range-start>
-            <igx-date-range-end>
-                <input igxInput igxDateTimeEditor type="text">
-            </igx-date-range-end>
-        </igx-date-range-picker>
-    </div>
+
 
 </div>
+
+
 
 
 <div class="container-fluid mt-4">
@@ -323,7 +365,7 @@
         </div>
         <div class="col-xs-4">
 
-            <button type="submit" class="btn btn-primary btn-block btn-flat">Save</button>
+            <button type="submit" [disabled]="!AddOrEditForm.valid || !AddOrEditForm.dirty" class="btn btn-primary btn-block btn-flat">Save</button>
             <button (click)="closeModal()" type="button" class="btn btn-primary btn-block btn-flat mt-4">cancel</button>
 
 

@@ -10,6 +10,7 @@ import { IgxDateRangePickerModule, IgxIconModule, IgxInputGroupModule } from 'ig
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     IgxDateRangePickerModule,
     IgxInputGroupModule,
     IgxIconModule,
+    MatSelectModule
     
 
   ]
