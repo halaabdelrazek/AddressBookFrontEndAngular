@@ -7,7 +7,7 @@ import { LoginUser } from "./Models/user.model";
 @Injectable()
 export class AuthService{
 
-  baseURL: string = 'http://halaabdelrazek-001-site1.gtempurl.com/api/User';
+  baseURL: string = 'https://addressbookbyhala.azurewebsites.net/api/User';
 
 
   constructor(private http:HttpClient,private router: Router){}
