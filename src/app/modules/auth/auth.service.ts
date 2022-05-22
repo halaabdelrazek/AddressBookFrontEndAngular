@@ -7,14 +7,17 @@ import { LoginUser } from "./Models/user.model";
 @Injectable()
 export class AuthService{
 
+  baseURL: string = 'http://halaabdelrazek-001-site1.gtempurl.com/api';
+
+
   constructor(private http:HttpClient,private router: Router){}
 
   login(loginUser:LoginUser){
-    return this.http.post<LoginUser>('https://localhost:7080/api/User/login',loginUser);
+    return this.http.post<LoginUser>(this.baseURL+'/login',loginUser);
   }
 
   Register(newUser:registerUser){
-    return this.http.post<registerUser>('https://localhost:7080/api/User/Register',newUser);
+    return this.http.post<registerUser>(this.baseURL+'/Register',newUser);
   }
 
   logout(){
