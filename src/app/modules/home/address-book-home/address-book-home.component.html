@@ -1,383 +1,557 @@
 <div class="row">
-    <div class="col-12 col-lg-12">
-        <nav class="navbar navbar-expand navbar-primary navbar-dark">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
+  <div class="col-12 col-lg-12">
+    <nav class="navbar navbar-expand navbar-primary navbar-dark">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item d-none d-sm-inline-block">
+          <a class="nav-link text-white" role="button" (click)="logout()"
+            >Log Out</a
+          >
+        </li>
 
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a class="nav-link text-white" role='button' (click)="logout()">Log Out</a>
-                </li>
-
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a class="nav-link text-white" role='button' (click)="exportexcel()">Export To Excel</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
+        <li class="nav-item d-none d-sm-inline-block">
+          <a class="nav-link text-white" role="button" (click)="exportexcel()"
+            >Export To Excel</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
 </div>
 
-<nav class="navbar navbar-light ">
-    <div class="container">
-        <span class="navbar-brand mb-0 h1 text-blue">Contacts</span>
-        <button type="button" class="btn btn-primary m-2" (click)="openAddModal()">Add Contact</button>
-    </div>
+<nav class="navbar navbar-light">
+  <div class="container">
+    <span class="navbar-brand mb-0 h1 text-blue">Contacts</span>
+    <button type="button" class="btn btn-primary m-2" (click)="openAddModal()">
+      Add Contact
+    </button>
+  </div>
 </nav>
 <div class="input-group mt-4">
-    <form [formGroup]="FilterdForm" (ngSubmit)="Search()">
-
-        <div class="form-group">
-            <div class="input-group">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-2">
-                            <input type="search" formControlName="fullNameQuery" class="form-control input-sm"
-                                placeholder="Full Name Search">
-                        </div>
-
-                        <div class="col-2">
-                            <input type="search" formControlName="phoneQuery" class="form-control input-sm"
-                                placeholder="Phone Search">
-                        </div>
-
-                        <div class="col-2">
-                            <input type="search" formControlName="emailQuery" class="form-control input-sm"
-                                placeholder="Email Search">
-                        </div>
-
-
-                        <div class="col-2">
-                            <input type="search" formControlName="ageQuery" class="form-control input-sm"
-                                placeholder="Age search">
-                        </div>
-
-                        <div class="col-2 input-group-append">
-                            <button type="submit" class="btn btn-lg btn-default">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-
-                    </div>
-
-
-
-                </div>
-                <div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3 mt-3">
-                                <mat-form-field>
-                                    <mat-label>Select Address</mat-label>
-                                    <mat-select formControlName="addressQuery" name="addressQuery">
-                                        <mat-option value="cairo">
-                                            cairo
-                                        </mat-option>
-                                        <mat-option value="ismailia">
-                                            ismailia
-                                        </mat-option>
-                                        <mat-option value="port said">
-                                            port said
-                                        </mat-option>
-
-                                    </mat-select>
-                                </mat-form-field>
-
-                            </div>
-
-                            <div class="col-3 mt-3">
-                                <mat-form-field>
-                                    <mat-label>Select Department</mat-label>
-                                    <mat-select formControlName="departmentQuery" name="department">
-                                        <mat-option *ngFor="let department of Departments"
-                                            [value]="department.departmentId">
-                                            {{department.departmentName}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col-3 mt-3">
-                                <mat-form-field>
-                                    <mat-label>Select Job Title</mat-label>
-                                    <mat-select formControlName="titleQuery" name="titleQuery">
-                                        <mat-option *ngFor="let JobTitle of JobTitles" [value]="JobTitle.jobTitleId">
-                                            {{JobTitle.jobTitleName}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col-3 mt-1">
-                                <div class="input-group">
-
-                                    <mat-form-field appearance="fill">
-                                        <mat-label>Enter a date range</mat-label>
-                                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                                            <input matStartDate formControlName="start" placeholder="Start date">
-                                            <input matEndDate formControlName="end" placeholder="End date">
-                                        </mat-date-range-input>
-                                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-date-range-picker #picker></mat-date-range-picker>
-
-                                        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid
-                                            start date</mat-error>
-                                        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end
-                                            date</mat-error>
-                                    </mat-form-field>
-                           
-                                </div>
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-
-
-
+  <form [formGroup]="FilterdForm" (ngSubmit)="Search()">
+    <div class="form-group">
+      <div class="input-group">
+        <div class="container-fluid">
+          <div class="row">
+            
+            <div class="col-lg-2 mt-1 col-sm-10 col-md-10  col-sm-offset-2">
+              <input
+                type="search"
+                formControlName="fullNameQuery"
+                class="form-control input-sm"
+                placeholder="Full Name Search"
+              />
             </div>
 
+            <div class="col-lg-2 mt-1 col-sm-10 col-md-10  col-sm-offset-2">
+              <input
+                type="search"
+                formControlName="phoneQuery"
+                class="form-control input-sm"
+                placeholder="Phone Search"
+              />
+            </div>
+
+            <div class="col-lg-2 mt-1 col-sm-10 col-md-10  col-sm-offset-2">
+              <input
+                type="search"
+                formControlName="emailQuery"
+                class="form-control input-sm"
+                placeholder="Email Search"
+              />
+            </div>
+
+            <div class="col-lg-2 mt-1 col-sm-10 col-md-10  col-sm-offset-2">
+              <input
+                type="search"
+                formControlName="ageQuery"
+                class="form-control input-sm"
+                placeholder="Age search"
+              />
+            </div>
+
+           
+          </div>
         </div>
+        <div>
+          <div class="container-fluid ml-2">
+            <div class="row">
+              <div class="col-lg-3 col-sm-10 col-md-10  col-sm-offset-2 mt-3">
+                <mat-form-field>
+                  <mat-label>Select Address</mat-label>
+                  <mat-select
+                    formControlName="addressQuery"
+                    name="addressQuery"
+                  >
+                    <mat-option value="cairo"> cairo </mat-option>
+                    <mat-option value="ismailia"> ismailia </mat-option>
+                    <mat-option value="port said"> port said </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
 
-    </form>
+              <div class="col-lg-3 col-sm-10 col-md-10  col-sm-offset-2 mt-3">
+                <mat-form-field>
+                  <mat-label>Select Department</mat-label>
+                  <mat-select
+                    formControlName="departmentQuery"
+                    name="department"
+                  >
+                    <mat-option
+                      *ngFor="let department of Departments"
+                      [value]="department.departmentId"
+                    >
+                      {{ department.departmentName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
 
+              <div class="col-lg-3 col-sm-10 col-md-10  col-sm-offset-2 mt-3">
+                <mat-form-field>
+                  <mat-label>Select Job Title</mat-label>
+                  <mat-select formControlName="titleQuery" name="titleQuery">
+                    <mat-option
+                      *ngFor="let JobTitle of JobTitles"
+                      [value]="JobTitle.jobTitleId"
+                    >
+                      {{ JobTitle.jobTitleName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
 
+              <div class="col-lg-3 col-sm-10 col-md-10  col-sm-offset-2 mt-1">
+                <div class="input-group">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input
+                      [formGroup]="range"
+                      [rangePicker]="picker"
+                    >
+                      <input
+                        matStartDate
+                        formControlName="start"
+                        placeholder="Start date"
+                      />
+                      <input
+                        matEndDate
+                        formControlName="end"
+                        placeholder="End date"
+                      />
+                    </mat-date-range-input>
+                    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+
+                    <mat-error
+                      *ngIf="
+                        range.controls.start.hasError('matStartDateInvalid')
+                      "
+                      >Invalid start date</mat-error
+                    >
+                    <mat-error
+                      *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+                      >Invalid end date</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- <div class="col-lg-2 mt-1 col-sm-10 col-md-10  col-sm-offset-2 input-group-append">
+                <button type="submit" class="btn btn-lg btn-default">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div> -->
+              <div class="row">
+                <div  class="col-lg-2 mt-1 col-sm-10 col-md-10  col-sm-offset-2 input-group-append">
+                  <button type="submit" class="btn btn-primary m-2 float-right">
+                    Search
+                  </button>
+                </div>
+
+              </div>
+            
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
-
-
-
 
 <div class="container-fluid mt-4">
-
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Contacts Table</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="excel-table">
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Job Title</th>
-                            <th>Department</th>
-                            <th>Mobile Number</th>
-                            <th>Date of birth</th>
-                            <th>Address</th>
-                            <th>Email</th>
-                            <th>Photo</th>
-                            <th>age</th>
-                            <th>Controls</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let contact of contacts">
-                            <td>{{contact.username}}</td>
-                            <td>{{contact.jobTitle.jobTitleName}}</td>
-                            <td>{{contact.department.departmentName}}</td>
-                            <td>{{contact.phone}}</td>
-                            <td>{{contact.dateOfBirth| date}}</td>
-                            <td>{{contact.address}}</td>
-                            <td>{{contact.email}}</td>
-                            <td><img src="{{ServerBase}}{{contact.image}}" alt="Image"
-                                    class="img-size-50 mr-3 img-circle" />
-                            </td>
-                            <td>{{contact.age}}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" (click)="openEditModal($event, contact)"
-                                        class="btn btn-primary m-1">Edit</button>
-                                    <button type="button" (click)="deleteContact($event, contact.contactId)"
-                                        class="btn btn-primary m-1">Delete</button>
-                                </div>
-
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-        <!-- /.card-body -->
-
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Contacts Table</h3>
     </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="excel-table">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Job Title</th>
+              <th>Department</th>
+              <th>Mobile Number</th>
+              <th>Date of birth</th>
+              <th>Address</th>
+              <th>Email</th>
+              <th>Photo</th>
+              <th>age</th>
+              <th>Controls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let contact of contacts">
+              <td>{{ contact.username }}</td>
+              <td>{{ contact.jobTitle.jobTitleName }}</td>
+              <td>{{ contact.department.departmentName }}</td>
+              <td>{{ contact.phone }}</td>
+              <td>{{ contact.dateOfBirth | date }}</td>
+              <td>{{ contact.address }}</td>
+              <td>{{ contact.email }}</td>
+              <td>
+                <img
+                  src="{{ ServerBase }}{{ contact.image }}"
+                  alt="Image"
+                  class="img-size-50 mr-3 img-circle"
+                />
+              </td>
+              <td>{{ contact.age }}</td>
+              <td>
+                <div class="btn-group">
+                  <button
+                    type="button"
+                    (click)="openEditModal($event, contact)"
+                    class="btn btn-primary m-1"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    (click)="deleteContact($event, contact.contactId)"
+                    class="btn btn-primary m-1"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- /.card-body -->
+  </div>
 </div>
 <ngx-smart-modal #contactModal identifier="contactrModal">
-
-
-    <form [formGroup]="AddOrEditForm" class="mt-5" (ngSubmit)="addOrEditContact()">
-        <div class="input-group mb-3">
-            <input type="text" formControlName="username" id="username" class="form-control" placeholder="Full name">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <div class="error-message"
-                        *ngIf="AddOrEditForm.get('username')?.invalid && AddOrEditForm.get('username')?.touched">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('username')?.hasError('required')">Name is required </span>
-                    </div>
-                </div>
-            </div>
+  <form
+    [formGroup]="AddOrEditForm"
+    class="mt-5"
+    (ngSubmit)="addOrEditContact()"
+  >
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        formControlName="username"
+        id="username"
+        class="form-control"
+        placeholder="Full name"
+      />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <div
+            class="error-message"
+            *ngIf="
+              AddOrEditForm.get('username')?.invalid &&
+              AddOrEditForm.get('username')?.touched
+            "
+          >
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('username')?.hasError('required')"
+              >Name is required
+            </span>
+          </div>
         </div>
+      </div>
+    </div>
 
-
-        <div class="input-group mb-3">
-            <input type="email" formControlName="email" id="email" class="form-control" placeholder="Email">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <div class="error-message"
-                        *ngIf="AddOrEditForm.get('email')?.invalid && AddOrEditForm.get('email')?.touched">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('email')?.hasError('required')">Email is required </span>
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('email')?.hasError('pattern')">please enter valid email</span>
-
-                    </div>
-                </div>
-            </div>
+    <div class="input-group mb-3">
+      <input
+        type="email"
+        formControlName="email"
+        id="email"
+        class="form-control"
+        placeholder="Email"
+      />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <div
+            class="error-message"
+            *ngIf="
+              AddOrEditForm.get('email')?.invalid &&
+              AddOrEditForm.get('email')?.touched
+            "
+          >
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('email')?.hasError('required')"
+              >Email is required
+            </span>
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('email')?.hasError('pattern')"
+              >please enter valid email</span
+            >
+          </div>
         </div>
+      </div>
+    </div>
 
-
-        <div class="input-group mb-3">
-            <input type="text" formControlName="phone" id="phone" class="form-control" placeholder="Phone Number">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <div class="error-message"
-                        *ngIf="AddOrEditForm.get('phone')?.invalid && AddOrEditForm.get('phone')?.touched">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('phone')?.hasError('required')">Phone number is required
-                        </span>
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('phone')?.hasError('pattern')">please enter valid Phone
-                            Number</span>
-
-                    </div>
-
-                </div>
-            </div>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        formControlName="phone"
+        id="phone"
+        class="form-control"
+        placeholder="Phone Number"
+      />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <div
+            class="error-message"
+            *ngIf="
+              AddOrEditForm.get('phone')?.invalid &&
+              AddOrEditForm.get('phone')?.touched
+            "
+          >
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('phone')?.hasError('required')"
+              >Phone number is required
+            </span>
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('phone')?.hasError('pattern')"
+              >please enter valid Phone Number</span
+            >
+          </div>
         </div>
-        <div class="input-group mb-3">
-            <input type="text" formControlName="age" id="age" class="form-control" placeholder="Enter your age">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <div class="error-message"
-                        *ngIf="AddOrEditForm.get('age')?.invalid && AddOrEditForm.get('age')?.touched">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('age')?.hasError('required')">Age is required
-                        </span>
-                    </div>
-
-                </div>
-            </div>
+      </div>
+    </div>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        formControlName="age"
+        id="age"
+        class="form-control"
+        placeholder="Enter your age"
+      />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <div
+            class="error-message"
+            *ngIf="
+              AddOrEditForm.get('age')?.invalid &&
+              AddOrEditForm.get('age')?.touched
+            "
+          >
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('age')?.hasError('required')"
+              >Age is required
+            </span>
+          </div>
         </div>
-        <div class="input-group mb-3">
-            <input type="date" formControlName="dateOfBirth" id="dateOfBirth" class="form-control">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                </div>
-            </div>
+      </div>
+    </div>
+    <div class="input-group mb-3">
+      <input
+        type="date"
+        formControlName="dateOfBirth"
+        id="dateOfBirth"
+        class="form-control"
+      />
+      <div class="input-group-append">
+        <div class="input-group-text"></div>
+      </div>
+    </div>
+    <div class="input mb-3">
+      <div class="dropdown mt-4">
+        <label class="mb-3">Address</label>
+        <select
+          formControlName="address"
+          class="form-select form-select-sm"
+          aria-label=".form-select-sm example"
+        >
+          <option selected>Select Option</option>
+          <option value="cairo">cairo</option>
+          <option value="ismailia">ismailia</option>
+          <option value="port said">port said</option>
+        </select>
+      </div>
+      <div
+        class="input-group-append"
+        *ngIf="
+          AddOrEditForm.get('address')?.invalid &&
+          AddOrEditForm.get('address')?.touched
+        "
+      >
+        <div class="input-group-text">
+          <div
+            class="error-message"
+            *ngIf="
+              AddOrEditForm.get('address')?.invalid &&
+              AddOrEditForm.get('address')?.touched
+            "
+          >
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('address')?.hasError('required')"
+              >Address is required
+            </span>
+          </div>
         </div>
-        <div class="input  mb-3">
-            <div class="dropdown mt-4">
-                <label class="mb-3">Address</label>
-                <select formControlName="address" class="form-select form-select-sm"
-                    aria-label=".form-select-sm example">
-                    <option selected>Select Option</option>
-                    <option value="cairo">cairo</option>
-                    <option value="ismailia">ismailia</option>
-                    <option value="port said">port said</option>
-                </select>
-            </div>
-            <div class="input-group-append"
-                *ngIf="AddOrEditForm.get('address')?.invalid && AddOrEditForm.get('address')?.touched">
-                <div class="input-group-text">
-                    <div class="error-message"
-                        *ngIf="AddOrEditForm.get('address')?.invalid && AddOrEditForm.get('address')?.touched">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('address')?.hasError('required')">Address is required </span>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </div>
+
+    <div class="input mb-3">
+      <div class="dropdown mt-4">
+        <label class="mb-3">Department</label>
+        <select
+          formControlName="Department"
+          class="form-select form-select-sm"
+          aria-label=".form-select-sm example"
+        >
+          <option selected>Select Option</option>
+          <option
+            *ngFor="let department of Departments"
+            value="{{ department.departmentId }}"
+          >
+            {{ department.departmentName }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="input-group-append"
+        *ngIf="
+          AddOrEditForm.get('Department')?.invalid &&
+          AddOrEditForm.get('Department')?.touched
+        "
+      >
+        <div class="input-group-text">
+          <div
+            class="error-message"
+            *ngIf="
+              AddOrEditForm.get('Department')?.invalid &&
+              AddOrEditForm.get('Department')?.touched
+            "
+          >
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('Department')?.hasError('required')"
+              >Department is required
+            </span>
+          </div>
         </div>
+      </div>
+    </div>
 
-
-        <div class="input mb-3">
-
-            <div class="dropdown mt-4">
-                <label class="mb-3">Department</label>
-                <select formControlName="Department" class="form-select form-select-sm"
-                    aria-label=".form-select-sm example">
-                    <option selected>Select Option</option>
-                    <option *ngFor="let department of Departments" value="{{department.departmentId}}">
-                        {{department.departmentName}}</option>
-                </select>
-            </div>
-            <div class="input-group-append"
-                *ngIf="AddOrEditForm.get('Department')?.invalid && AddOrEditForm.get('Department')?.touched">
-                <div class="input-group-text">
-                    <div class="error-message"
-                        *ngIf="AddOrEditForm.get('Department')?.invalid && AddOrEditForm.get('Department')?.touched">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('Department')?.hasError('required')">Department is required
-                        </span>
-                    </div>
-                </div>
-            </div>
+    <div class="input mb-3">
+      <div class="dropdown mt-4">
+        <label class="mb-3">Job Title</label>
+        <select
+          formControlName="JobTitle"
+          class="form-select form-select-sm"
+          aria-label=".form-select-sm example"
+        >
+          <option selected>Select Option</option>
+          <option
+            *ngFor="let JobTitle of JobTitles"
+            value="{{ JobTitle.jobTitleId }}"
+          >
+            {{ JobTitle.jobTitleName }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="input-group-append"
+        *ngIf="
+          AddOrEditForm.get('JobTitle')?.invalid &&
+          AddOrEditForm.get('JobTitle')?.touched
+        "
+      >
+        <div class="input-group-text">
+          <div
+            class="error-message"
+            *ngIf="
+              AddOrEditForm.get('JobTitle')?.invalid &&
+              AddOrEditForm.get('JobTitle')?.touched
+            "
+          >
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('JobTitle')?.hasError('required')"
+              >Job Title is required
+            </span>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div class="input mb-3">
-            <div class="dropdown mt-4">
-                <label class="mb-3">Job Title</label>
-                <select formControlName="JobTitle" class="form-select form-select-sm"
-                    aria-label=".form-select-sm example">
-                    <option selected>Select Option</option>
-                    <option *ngFor="let JobTitle of JobTitles" value="{{JobTitle.jobTitleId}}">
-                        {{JobTitle.jobTitleName}}</option>
-
-                </select>
-            </div>
-            <div class="input-group-append"
-                *ngIf="AddOrEditForm.get('JobTitle')?.invalid && AddOrEditForm.get('JobTitle')?.touched">
-                <div class="input-group-text">
-                    <div class="error-message"
-                        *ngIf="AddOrEditForm.get('JobTitle')?.invalid && AddOrEditForm.get('JobTitle')?.touched">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('JobTitle')?.hasError('required')">Job Title is required
-                        </span>
-                    </div>
-                </div>
-            </div>
+    <div class="input-group mb-3">
+      <label class="mb-3 mr-3">Image</label>
+      <input
+        type="file"
+        (change)="onFileSelect($event)"
+        id="image"
+        name="image"
+      />
+      <div
+        class="input-group-append"
+        *ngIf="
+          AddOrEditForm.get('image')?.invalid &&
+          AddOrEditForm.get('image')?.touched
+        "
+      >
+        <div class="input-group-text">
+          <div
+            class="error-message"
+            *ngIf="
+              AddOrEditForm.get('image')?.invalid &&
+              AddOrEditForm.get('image')?.touched
+            "
+          >
+            <span
+              class="glyphicon glyphicon-envelope form-control-feedback"
+              *ngIf="AddOrEditForm.get('image')?.hasError('required')"
+              >image is required
+            </span>
+          </div>
         </div>
-
-        <div class="input-group mb-3">
-            <label class="mb-3 mr-3">Image</label>
-            <input type="file" (change)="onFileSelect($event)" id="image" name="image">
-            <div class="input-group-append"
-                *ngIf="AddOrEditForm.get('image')?.invalid && AddOrEditForm.get('image')?.touched">
-                <div class="input-group-text">
-                    <div class="error-message"
-                        *ngIf="AddOrEditForm.get('image')?.invalid && AddOrEditForm.get('image')?.touched">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"
-                            *ngIf="AddOrEditForm.get('image')?.hasError('required')">image is required </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-4">
-
-            <button type="submit" [disabled]="!AddOrEditForm.valid || !AddOrEditForm.dirty"
-                class="btn btn-primary btn-block btn-flat">Save</button>
-            <button (click)="closeModal()" type="button" class="btn btn-primary btn-block btn-flat mt-4">cancel</button>
-
-
-        </div>
-
-    </form>
-
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <button
+        type="submit"
+        [disabled]="!AddOrEditForm.valid || !AddOrEditForm.dirty"
+        class="btn btn-primary btn-block btn-flat"
+      >
+        Save
+      </button>
+      <button
+        (click)="closeModal()"
+        type="button"
+        class="btn btn-primary btn-block btn-flat mt-4"
+      >
+        cancel
+      </button>
+    </div>
+  </form>
 </ngx-smart-modal>
